@@ -1,4 +1,7 @@
-*{font-size:1.5em;}
+*{
+    font-size:1.5em;
+    font-family: "Nerko One", cursive;
+}
 
 #btn-hello, #btn-goodbye{
     height: 50px;
