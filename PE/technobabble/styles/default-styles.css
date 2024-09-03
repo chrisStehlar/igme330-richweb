@@ -1,0 +1,120 @@
+body{
+    font-family: monospace;
+}
+
+#output{
+    font-size: 200%;
+}
+
+#myButton{
+    width: 200px;
+    height: 50pt;
+    font-size: 15pt;
+}
+
+h1{
+    font-family: "Protest Guerrilla", sans-serif;
+}
+
+@media only screen and (min-width: 320px){
+    .container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    html, body, .container{
+        height: 100%;
+        margin: 0;
+    }
+
+    h1{
+        font-size: 1.2rem;
+        background-color: #174287;
+        color: #f5f5f5;
+        padding: .8rem;
+        margin: 0;
+        text-align: center;
+    }
+
+    #output{
+        text-align: center;
+    }
+}
+
+@media only screen and (min-width: 768px){
+    h1{
+        font-size: 3rem;
+        background-color: #23D160;
+    }
+
+    #myButton{
+        width: 300px;
+        height: 75pt;
+        font-size: 1.5rem;
+    }
+
+    body{
+        color: darkgray;
+        font-size: 2rem;
+    }
+}
+
+@media only screen and (min-width: 1024px){
+    body{
+        font-size: 1rem;
+        text-align: left;
+    }
+
+    h1{
+        background-color: #FF3860;
+    }
+
+    .container{
+        display: block;
+        margin: 1rem;
+    }
+
+    #output{
+        text-align: left;
+    }
+}
+
+
+/* custom media query for smallest screens (<320px): 
+ - move button to top of screen
+ - wrap button words at any character that will fit 
+ - changed background to pink */
+@media only screen and (max-width: 319px){
+    .container{
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        flex-direction: column;
+    }
+
+    html, body, .container{
+        height: 100%;
+        margin: 0;
+    }
+
+    #myButton{
+        width: 100px;
+        height: 75pt;
+        overflow-wrap: break-word;
+    }
+
+    h1{
+        font-size: 1.2rem;
+        background-color: #ff1bb3;
+        color: #f5f5f5;
+        padding: .8rem;
+        margin: 0;
+        text-align: center;
+    }
+
+    #output{
+        text-align: center;
+    }
+}

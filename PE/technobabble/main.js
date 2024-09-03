@@ -6,6 +6,8 @@ const words2 = ["Propulsion", "Dissipation", "Sensor", "Improbability", "Buffer"
 
 const words3 = ["Chamber", "Interface", "Coil", "Polymer", "Biosphere", "Platform", "Thruster", "Deflector", "Replicator", "Tricorder", "Operation", "Array", "Matrix", "Grid", "Sensor", "Mode", "Panel", "Storage", "Conduit", "Pod", "Hatch", "Regulator", "Display", "Inverter", "Spectrum", "Generator", "Cloud", "Field", "Terminal", "Module", "Procedure", "System", "Diagnostic", "Device", "Beam", "Probe", "Bank", "Tie-In", "Facility", "Bay", "Indicator", "Cell"];
 
+generateTechnobabble();
+
 function getRandomElement(array){
     return array[Math.floor(Math.random() * array.length)];
 }
