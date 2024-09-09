@@ -22,20 +22,23 @@
 	
 
 <script>
-    document.querySelector("#my-button").onclick = loadTextXHR;
+    document.querySelector("#my-button").onclick = loadXmlXHR;
 
-    function loadTextXHR(){
-        const url = "data/pet-names.txt";
+    function loadXmlXHR(){
+        const url = "data/pet-names.xml";
         const xhr = new XMLHttpRequest();
         xhr.onload = (e) => {
             console.log(`In onload - HTTP Status Code = ${e.target.status}`);
-            const text = e.target.responseText;
-            console.log(`Success - the file length is ${text.length}`);
+            
+            const xml = e.target.responseXML;
+            if(!xml){
+                document.querySelector("#output").innerHTML = "xml is null!";
+                return;
+            }
+            const dogNames = xml.querySelector("namelist[cid='dognames']").textContent.split(",");
+            const catNames = xml.querySelector("namelist[cid='catnames']").textContent.split(",");
+            const birdNames = xml.querySelector("namelist[cid='birdnames']").textContent.split(",");
 
-            let[dogNames, catNames, birdNames] = text.split("\n");
-            dogNames = dogNames.split(",");
-            catNames = catNames.split(",");
-            birdNames = birdNames.split(",");
 
             const dogHtml = `<ol>${dogNames.map(w => `<li>${w}</li>`).join("")}</ol>`;
             const catHtml = `<ol>${catNames.map(w => `<li>${w}</li>`).join("")}</ol>`;
