@@ -32,8 +32,23 @@
             const text = e.target.responseText;
             console.log(`Success - the file length is ${text.length}`);
 
-            const words = text.split(",");
-            const html = `<ol>${words.map(w => `<li>${w}</li>`).join("")}</ol>`;
+            let[dogNames, catNames, birdNames] = text.split("\n");
+            dogNames = dogNames.split(",");
+            catNames = catNames.split(",");
+            birdNames = birdNames.split(",");
+
+            const dogHtml = `<ol>${dogNames.map(w => `<li>${w}</li>`).join("")}</ol>`;
+            const catHtml = `<ol>${catNames.map(w => `<li>${w}</li>`).join("")}</ol>`;
+            const birdHtml = `<ol>${birdNames.map(w => `<li>${w}</li>`).join("")}</ol>`;
+
+            const html = `
+                <h3>Dog Names</h3>
+                ${dogHtml}
+                <h3>Cat Names</h3>
+                ${catHtml}
+                <h3>Bird Names</h3>
+                ${birdHtml}`;
+
             document.querySelector("#output").innerHTML = html;
         };
         xhr.onerror = e => console.log(`In onerror - HTTP Status Code = ${e.target.status}`);
