@@ -6,18 +6,21 @@ const words2 = ["Propulsion", "Dissipation", "Sensor", "Improbability", "Buffer"
 
 const words3 = ["Chamber", "Interface", "Coil", "Polymer", "Biosphere", "Platform", "Thruster", "Deflector", "Replicator", "Tricorder", "Operation", "Array", "Matrix", "Grid", "Sensor", "Mode", "Panel", "Storage", "Conduit", "Pod", "Hatch", "Regulator", "Display", "Inverter", "Spectrum", "Generator", "Cloud", "Field", "Terminal", "Module", "Procedure", "System", "Diagnostic", "Device", "Beam", "Probe", "Bank", "Tie-In", "Facility", "Bay", "Indicator", "Cell"];
 
-generateTechnobabble();
+generateTechnobabble(1);
 
 function getRandomElement(array){
     return array[Math.floor(Math.random() * array.length)];
 }
 
-function generateTechnobabble(){
-    let technobabble = getRandomElement(words1) + " " + getRandomElement(words2) + " " + getRandomElement(words3);
-    document.querySelector("#output").innerHTML = technobabble;
-    return technobabble;
+function generateTechnobabble(howMany){
+    document.querySelector("#output").innerHTML = "";
+    for (let i = 0; i < howMany; i++)
+    {
+        let technobabble = `${getRandomElement(words1)} ${getRandomElement(words2)} ${getRandomElement(words3)}`;
+        document.querySelector("#output").innerHTML += `${technobabble}\n`;
+    }
 }
 
-document.querySelector("#myButton").addEventListener("click", () => {
-    generateTechnobabble();
+document.querySelector("#my-button").addEventListener("click", () => {
+    generateTechnobabble(3);
 });

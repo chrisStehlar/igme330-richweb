@@ -4,12 +4,17 @@ body{
 
 #output{
     font-size: 200%;
+    white-space: pre-wrap;
 }
 
-#myButton{
+#my-button{
     width: 200px;
     height: 50pt;
     font-size: 15pt;
+}
+
+#five-babble-button{
+    display: none;
 }
 
 h1{
@@ -40,6 +45,7 @@ h1{
 
     #output{
         text-align: center;
+        margin: 20px;
     }
 }
 
@@ -49,7 +55,7 @@ h1{
         background-color: #23D160;
     }
 
-    #myButton{
+    #my-button{
         width: 300px;
         height: 75pt;
         font-size: 1.5rem;
@@ -81,6 +87,16 @@ h1{
     }
 }
 
+@media only screen and (min-width: 1408px){
+
+    #five-babble-button{
+        display: inline;
+        width: 200px;
+        height: 50pt;
+        font-size: 15pt;
+    }
+}
+
 
 /* custom media query for smallest screens (<320px): 
  - move button to top of screen
@@ -99,7 +115,7 @@ h1{
         margin: 0;
     }
 
-    #myButton{
+    #my-button{
         width: 100px;
         height: 75pt;
         overflow-wrap: break-word;
