@@ -1,26 +1,47 @@
-"use strict";
-        
-const words1 = ["Acute", "Aft", "Anti-matter", "Bipolar", "Cargo", "Command", "Communication", "Computer", "Deuterium", "Dorsal", "Emergency", "Engineering", "Environmental", "Flight", "Fore", "Guidance", "Heat", "Impulse", "Increased", "Inertial", "Infinite", "Ionizing", "Isolinear", "Lateral", "Linear", "Matter", "Medical", "Navigational", "Optical", "Optimal", "Optional", "Personal", "Personnel", "Phased", "Reduced", "Science", "Ship's", "Shuttlecraft", "Structural", "Subspace", "Transporter", "Ventral"];
+import { getRandomElement } from "./utils.js";
 
-const words2 = ["Propulsion", "Dissipation", "Sensor", "Improbability", "Buffer", "Graviton", "Replicator", "Matter", "Anti-matter", "Organic", "Power", "Silicon", "Holographic", "Transient", "Integrity", "Plasma", "Fusion", "Control", "Access", "Auto", "Destruct", "Isolinear", "Transwarp", "Energy", "Medical", "Environmental", "Coil", "Impulse", "Warp", "Phaser", "Operating", "Photon", "Deflector", "Integrity", "Control", "Bridge", "Dampening", "Display", "Beam", "Quantum", "Baseline", "Input"];
+const generateTechnobabble = (howMany) => {
+    // get the words
+    let json;
+    const url = "data/babble-data.json";
+    const xhr = new XMLHttpRequest();
 
-const words3 = ["Chamber", "Interface", "Coil", "Polymer", "Biosphere", "Platform", "Thruster", "Deflector", "Replicator", "Tricorder", "Operation", "Array", "Matrix", "Grid", "Sensor", "Mode", "Panel", "Storage", "Conduit", "Pod", "Hatch", "Regulator", "Display", "Inverter", "Spectrum", "Generator", "Cloud", "Field", "Terminal", "Module", "Procedure", "System", "Diagnostic", "Device", "Beam", "Probe", "Bank", "Tie-In", "Facility", "Bay", "Indicator", "Cell"];
+    xhr.onload = (e) => {
+        let responseText = e.target.responseText;
 
-generateTechnobabble(1);
+        try{
+            json = JSON.parse(responseText);
 
-function getRandomElement(array){
-    return array[Math.floor(Math.random() * array.length)];
-}
-
-function generateTechnobabble(howMany){
-    document.querySelector("#output").innerHTML = "";
-    for (let i = 0; i < howMany; i++)
-    {
-        let technobabble = `${getRandomElement(words1)} ${getRandomElement(words2)} ${getRandomElement(words3)}`;
-        document.querySelector("#output").innerHTML += `${technobabble}\n`;
+            let words1, words2, words3;
+            ({words1, words2, words3} = json);
+            
+            // update the output
+            document.querySelector("#output").innerHTML = "";
+            for (let i = 0; i < howMany; i++)
+            {
+                let technobabble = `${getRandomElement(words1)} ${getRandomElement(words2)} ${getRandomElement(words3)}`;
+                document.querySelector("#output").innerHTML += `${technobabble}\n`;
+            }
+        }
+        catch{
+            console.log("Could not parse the JSON.");
+            return;
+        }
     }
-}
+
+    xhr.open("GET", url);
+    xhr.send();
+
+    
+};
 
 document.querySelector("#my-button").addEventListener("click", () => {
-    generateTechnobabble(3);
+    generateTechnobabble(1);
 });
+
+document.querySelector("#five-babble-button").addEventListener("click", () => {
+    generateTechnobabble(5);
+});
+
+
+generateTechnobabble(1);
