@@ -33,10 +33,7 @@
 			// D - fill a rectangle with the current fill color
 			ctx.fillRect(20,20,600,440); 
 
-            // pe 1
-            // ctx.fillRect(120, 120, 400, 300);
-            
-            // ctx.strokeRect(120, 120, 400, 300);
+            // pe 2
             
             ctx.fillStyle = "yellow";
             ctx.strokeStyle = "magenta";
@@ -63,7 +60,46 @@
             ctx.stroke();
 
             // circle
-            // minute 6:44
+            ctx.fillStyle = "green";
+            ctx.strokeStyle = "purple";
+            ctx.beginPath();
+            ctx.arc(320, 240, 50, Math.PI * 2, false);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // semi circle
+            ctx.fillStyle = "gray";
+            ctx.strokeStyle = "yellow";
+            ctx.beginPath();
+            ctx.arc(320, 240, 20, 0, Math.PI, false);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // eyes
+            ctx.fillStyle = "teal";
+            ctx.strokeStyle = "brown";
+            ctx.beginPath();
+            ctx.arc(300, 220, 10, 0, Math.PI * 2, false);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(340, 220, 10, 0, Math.PI * 2, false);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // line
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 20;
+            ctx.beginPath();
+            ctx.moveTo(20, 50);
+            ctx.lineTo(620, 50);
+            ctx.closePath();
+            ctx.stroke();
 		}
 	</script>
 </head>
