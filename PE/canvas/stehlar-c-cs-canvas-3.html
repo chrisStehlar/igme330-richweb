@@ -18,13 +18,15 @@
 		window.onload = init;
 
         let ctx;
+        let width, height;
+        let barDirectionUpDown = false;
 
         // handy helper functions!
         function getRandomColor(){
             function getByte(){
                 return 55 + Math.round(Math.random() * 200);
             }
-            return "rgba(" + getByte() + "," + getByte() + "," + getByte() + ",.8)";
+            return "rgba(" + getByte() + "," + getByte() + "," + getByte() + ",1)";
         }
 
         function getRandomInt(min, max) {
@@ -37,6 +39,8 @@
 			
 			// A - `canvas` variable points at <canvas> tag
 			let canvas = document.querySelector("canvas");
+            width = canvas.width;
+            height = canvas.height;
 			
 			// B - the `ctx` variable points at a "2D drawing context"
 			ctx = canvas.getContext("2d");
@@ -127,8 +131,20 @@
 
         function update()
         {
+            // 1 in 100 chance to clear the board
+            if(getRandomInt(0, 100) == 0)
+            {
+                ctx.fillStyle = getRandomColor();    
+                ctx.fillRect(0,0, width, height);
+                barDirectionUpDown = !barDirectionUpDown;
+            }
+            else
+            {
+                drawRandomBars(ctx);   
+                drawRandomPixels(ctx);
+            }
+
             requestAnimationFrame(update);
-            drawRandomRect(ctx);
         }
 
         function drawRandomRect(ctx)
@@ -141,6 +157,39 @@
             ctx.closePath();
             ctx.fill();
             ctx.stroke();
+        }
+
+        // draws clusters of pixels all over the canvas at once
+        function drawRandomPixels(ctx)
+        {
+            let randomAmount = getRandomInt(20, 50);
+            ctx.fillStyle = getRandomColor();
+
+            ctx.beginPath();
+            for(let i = 0; i < randomAmount; i++)
+            {
+                ctx.rect(getRandomInt(0, width), getRandomInt(0, height), 4, 4);
+            }
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // draws thin bars across the top and bottom of the cavnas
+        function drawRandomBars(ctx)
+        {
+            ctx.fillStyle = getRandomColor();
+
+            ctx.beginPath();
+
+            if(barDirectionUpDown)
+                ctx.rect(0, getRandomInt(0, height), width, 4);
+            else
+                ctx.rect(getRandomInt(0, width), 0, 4, height);
+
+            barDirectionUpDown = !barDirectionUpDown;
+
+            ctx.closePath();
+            ctx.fill();
         }
 	</script>
 </head>
