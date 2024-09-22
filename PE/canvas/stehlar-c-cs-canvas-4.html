@@ -7,6 +7,18 @@
         canvas{
             border:1px solid gray;
         }
+
+        body{
+            font-family: sans-serif;
+        }
+            
+        button{
+            font-size:1.2em;
+        }
+            
+        section{
+            margin:.5em 0 .5em 0;
+        }
 	</style>
 	<script>
 		// #0 - in this class we will always use ECMAScript 5's "strict" mode
@@ -20,6 +32,9 @@
         let ctx;
         let width, height;
         let barDirectionUpDown = false;
+        let paused = false;
+        let canvas;
+        let createRectangles = true;
 
         // handy helper functions!
         function getRandomColor(){
@@ -32,13 +47,66 @@
         function getRandomInt(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
+        
+        // event handler
+        function canvasClicked(e){
+            let rect = e.target.getBoundingClientRect();
+            let mouseX = e.clientX - rect.x;
+            let mouseY = e.clientY - rect.y;
+            console.log(mouseX,mouseY);
+
+            for(let i = 0 ; i < 10; i++)
+            {
+                let x = getRandomInt(-100, 100) + mouseX;
+                let y = getRandomInt(-100, 100) + mouseY;
+                let width = getRandomInt(20, 50);
+                let height = getRandomInt(20, 50);
+                let color = getRandomColor();
+                drawRectangle(ctx, x, y, width, height, color);
+            }
+        }
+
+        function setupUI(){
+            document.querySelector("#btnPause").onclick = function(){
+                paused = true;
+            };
+
+            document.querySelector("#btnPlay").onclick = function(){
+                let pausedCheck = paused; // see if there is a difference in pause - fixes the play button spam
+                paused = false;
+                if(pausedCheck != paused) update();
+            };
+
+            canvas.onclick = canvasClicked;
+
+            document.querySelector("#cbRectangles").onclick = function(e){
+                createRectangles = e.target.checked;
+            }
+        }
+
+        // canvas helpers
+        function drawRectangle(ctx, x, y, width, height, fillStyle="black", lineWidth=0, strokeStyle="black")
+        {
+            ctx.save();
+            ctx.fillStyle = fillStyle;
+            ctx.beginPath();
+            ctx.rect(x,y,width,height);
+            ctx.fill();
+            if(lineWidth > 0 ){
+                ctx.lineWidth = lineWidth;
+                ctx.strokeStyle = strokeStyle;
+                ctx.stroke();
+            }
+            ctx.closePath();
+            ctx.restore();
+        }
 	
 		function init(){
 			console.log("page loaded!");
 			// #2 Now that the page has loaded, start drawing!
 			
 			// A - `canvas` variable points at <canvas> tag
-			let canvas = document.querySelector("canvas");
+			canvas = document.querySelector("canvas");
             width = canvas.width;
             height = canvas.height;
 			
@@ -126,11 +194,14 @@
             ctx.closePath();
             ctx.stroke();
 
+            setupUI();
             update();
 		}
 
         function update()
         {
+            if(paused) return;
+
             // 1 in 100 chance to clear the board
             if(getRandomInt(0, 100) == 0)
             {
@@ -140,8 +211,13 @@
             }
             else
             {
-                drawRandomBars(ctx);   
-                drawRandomPixels(ctx);
+                
+                if(createRectangles) drawRandomRect(ctx);
+                else
+                {
+                    drawRandomBars(ctx);   
+                    drawRandomPixels(ctx);
+                }
             }
 
             requestAnimationFrame(update);
@@ -149,14 +225,7 @@
 
         function drawRandomRect(ctx)
         {
-            ctx.fillStyle = getRandomColor();
-            ctx.strokeStyle = getRandomColor();
-            ctx.lineWidth = getRandomInt(2, 12);
-            ctx.beginPath();
-            ctx.rect(getRandomInt(0, 640), getRandomInt(0, 480), getRandomInt(10, 90), getRandomInt(10, 90));
-            ctx.closePath();
-            ctx.fill();
-            ctx.stroke();
+            drawRectangle(ctx, getRandomInt(0, 640), getRandomInt(0, 480), getRandomInt(10, 90), getRandomInt(10, 90), getRandomColor(), getRandomInt(2 ,12), getRandomColor());
         }
 
         // draws clusters of pixels all over the canvas at once
@@ -197,5 +266,18 @@
 	<canvas width="640" height="480">
 		Get a real browser!
 	</canvas>
+    <section>
+        <button id="btnPlay">Play</button>
+        <button id="btnPause">Pause</button>
+      </section>
+      <section>
+        <span>
+          <input type="checkbox" id="cbRectangles" checked>
+          <label for="cbRectangles">Rectangles</label>
+        </span>
+      </section>
+      <section>
+        <p>Click on the screen to "spraypaint" rectangles (you probably want the screensaver to be paused)</p>
+      </section>
 </body>
 </html>
