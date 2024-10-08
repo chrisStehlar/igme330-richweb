@@ -15,7 +15,9 @@ const drawParams = {
     showGradient : true,
     showBars : true,
     showCircles : true,
-    showNoise : true
+    showNoise : false,
+    showInvert : false,
+    showEmboss : false
 };
 
 // 1 - here we are faking an enumeration
@@ -91,6 +93,9 @@ function setupUI(canvasElement){
   let gradientCheckbox = document.querySelector("#gradientCB");
   let barsCheckbox = document.querySelector("#barsCB");
   let circlesCheckbox = document.querySelector("#circlesCB");
+  let noiseCheckbox = document.querySelector("#noiseCB");
+  let invertCheckbox = document.querySelector("#invertCB");
+  let embossCheckbox = document.querySelector("#embossCB");
 
   gradientCheckbox.onchange = e => {
     drawParams.showGradient = !drawParams.showGradient;
@@ -102,6 +107,18 @@ function setupUI(canvasElement){
 
   circlesCheckbox.onchange = e => {
     drawParams.showCircles = !drawParams.showCircles;
+  };
+
+  noiseCheckbox.onchange = e => {
+    drawParams.showNoise = !drawParams.showNoise;
+  };
+
+  invertCheckbox.onchange = e => {
+    drawParams.showInvert = !drawParams.showInvert;
+  };
+
+  embossCheckbox.onchange = e => {
+    drawParams.showEmboss = !drawParams.showEmboss;
   };
 	
 } // end setupUI
