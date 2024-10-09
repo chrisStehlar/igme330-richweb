@@ -137,18 +137,16 @@ function draw(params={}){
             data[i] = data[i + 1] = data[i + 2] = 0;
             data[i] = 255;
 
-            if(params.showInvert)
-                {
-                    let red = data[i], green = data[i+1], blue = data[i+2];
-                    data[i] = 255 - red;
-                    data[i +1] = 255 - green;
-                    data[i +2] = 255 - blue;
-                }
+        }
+
+        if(params.showInvert)
+        {
+            let red = data[i], green = data[i+1], blue = data[i+2];
+            data[i] = 255 - red;
+            data[i +1] = 255 - green;
+            data[i +2] = 255 - blue;
         }
     }
-
-	// D) copy image data back to canvas
-    ctx.putImageData(imageData, 0, 0);
 
     if(params.showEmboss)
     {
@@ -157,6 +155,9 @@ function draw(params={}){
             data[i] = 127 + 2 * data[i] - data[i + 4] - data[i + width * 4];
         }
     }
+
+	// D) copy image data back to canvas
+    ctx.putImageData(imageData, 0, 0);
 }
 
 export {setupCanvas,draw};

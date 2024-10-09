@@ -22,7 +22,7 @@ const drawParams = {
 
 // 1 - here we are faking an enumeration
 const DEFAULTS = Object.freeze({
-	sound1  :  "media/New Adventure Theme.mp3"
+	sound1  :  "media/Joe Satriani - Sahara.mp3"
 });
 
 function init(){
