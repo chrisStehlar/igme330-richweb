@@ -135,7 +135,7 @@ function draw(params={}){
         // zero out the red and green and blue channels
         // make the red channel 100% red
             data[i] = data[i + 1] = data[i + 2] = 0;
-            data[i] = 255;
+            data[i] = 0;
 
         }
 
