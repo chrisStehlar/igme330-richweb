@@ -56,7 +56,7 @@ function draw(params={}){
 
 	// 4 - draw bars
     if(params.showBars){
-        console.log("show bars");
+        //console.log("show bars");
 
         let barSpacing = 4;
         let margin = 5;

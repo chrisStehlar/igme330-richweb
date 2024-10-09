@@ -49,14 +49,14 @@ function setupUI(canvasElement){
 
   // B - add onclick event for play button to start the music
   playButton.onclick = e => {
-    console.log(`audioCtx.state before = ${audio.audioCtx.state}`);
+    //console.log(`audioCtx.state before = ${audio.audioCtx.state}`);
 
     // check if audiocontext is in suspended state because of autoplay pausing
     if(audio.audioCtx.state == "suspended")
     {
         audio.audioCtx.resume();
     }
-    console.log(`audioCtx.state after = ${audio.audioCtx.state}`);
+    //console.log(`audioCtx.state after = ${audio.audioCtx.state}`);
     if(e.target.dataset.playing == "no"){
         // if track is currently paused then play it
         audio.playCurrentSound();
