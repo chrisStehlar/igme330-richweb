@@ -30,17 +30,18 @@
 			//ctx.rotate(Math.PI/6);
 			//ctx.scale(1.2,1.2);
 			
-			
+			ctx.save();
 			// set a bunch of state attributes
-			// ctx.shadowOffsetX = 15;
-			// ctx.shadowOffsetY = 15;
-			// ctx.shadowColor = "rgba(153,50,204,.6)";
-			// ctx.shadowBlur = 5;
+			ctx.shadowOffsetX = 15;
+			ctx.shadowOffsetY = 15;
+			ctx.shadowColor = "rgba(153,50,204,.6)";
+			ctx.shadowBlur = 5;
 		
 		
 			// draw square with fillRect() convenience method
 			ctx.fillStyle="green";
 			ctx.fillRect(100,100,100,100);
+			ctx.restore();
 		
 			// draw square with rect()
 			ctx.fillStyle="blue";
