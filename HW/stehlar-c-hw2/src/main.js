@@ -135,17 +135,18 @@ function setupUI(canvasElement){
   disortionVolumeLabel.innerHTML = Math.round(distortionSlider.value/2 * 100);
 
   distortionSlider.oninput = e => {
-    //audio.setDistortion(e.target.value);
-    disortionVolumeLabel.innerHTML = Math.round(e.target.value/2 * 100);
-    audio.toggleDistortion(audioParams.distortionActive, e.target.value);
+    let value  = Math.round(e.target.value/2 * 100);
+    disortionVolumeLabel.innerHTML = value;
+    audio.toggleDistortion(audioParams.distortionActive, value);
   };
 
   let distortionCheckbox = document.querySelector("#distortion-cb");
   distortionCheckbox.onchange = e => {
     audioParams.distortionActive = !audioParams.distortionActive;
-    disortionVolumeLabel.innerHTML = Math.round(distortionSlider.value/2 * 100);
+    let value = Math.round(e.target.value/2 * 100);
+    disortionVolumeLabel.innerHTML = value;
 
-    audio.toggleDistortion(audioParams.distortionActive, distortionSlider.value);
+    audio.toggleDistortion(audioParams.distortionActive, value);
   };
 
   let trebleCheckbox = document.querySelector("#treble-cb");

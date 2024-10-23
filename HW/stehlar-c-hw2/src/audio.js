@@ -108,12 +108,10 @@ function toggleDistortion(isOn, value)
     if(isOn)
     {
         distortionFilter.curve = makeDistortionCurve(value);
-        console.log("distorition on");
     }
     else
     {
         distortionFilter.curve = null;
-        console.log("distorition off");
     }
 }
 
