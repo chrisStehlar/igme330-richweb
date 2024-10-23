@@ -17,7 +17,8 @@ const drawParams = {
     showCircles : true,
     showNoise : false,
     showInvert : false,
-    showEmboss : false
+    showEmboss : false,
+    visualMode : "frequency"
 };
 
 const audioParams = {
@@ -160,6 +161,13 @@ function setupUI(canvasElement){
   bassCheckbox.onchange = e => {
     audioParams.bassActive = !audioParams.bassActive;
     audio.toggleHighpass(audioParams.bassActive);
+  };
+
+  // visual mode
+
+  let visualModeSelect = document.querySelector("#visualization-mode");
+  visualModeSelect.onchange = e => {
+    drawParams.visualMode = e.target.value;
   };
 
 } // end setupUI
