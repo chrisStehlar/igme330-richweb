@@ -20,6 +20,12 @@ const drawParams = {
     showEmboss : false
 };
 
+const audioParams = {
+  trebleActive : false,
+  bassActive : false,
+  distortionActive : false
+};
+
 // 1 - here we are faking an enumeration
 const DEFAULTS = Object.freeze({
 	sound1  :  "media/Joe Satriani - Sahara.mp3"
@@ -121,7 +127,40 @@ function setupUI(canvasElement){
   embossCheckbox.onchange = e => {
     drawParams.showEmboss = !drawParams.showEmboss;
   };
-	
+
+  // treble, bass, disortion
+
+  let distortionSlider = document.querySelector("#distortion-volume-slider");
+  let disortionVolumeLabel = document.querySelector("#distortion-volume-label");
+  disortionVolumeLabel.innerHTML = Math.round(distortionSlider.value/2 * 100);
+
+  distortionSlider.oninput = e => {
+    //audio.setDistortion(e.target.value);
+    disortionVolumeLabel.innerHTML = Math.round(e.target.value/2 * 100);
+    audio.toggleDistortion(audioParams.distortionActive, e.target.value);
+  };
+
+  let distortionCheckbox = document.querySelector("#distortion-cb");
+  distortionCheckbox.onchange = e => {
+    audioParams.distortionActive = !audioParams.distortionActive;
+    disortionVolumeLabel.innerHTML = Math.round(distortionSlider.value/2 * 100);
+
+    audio.toggleDistortion(audioParams.distortionActive, distortionSlider.value);
+  };
+
+  let trebleCheckbox = document.querySelector("#treble-cb");
+  let bassCheckbox = document.querySelector("#bass-cb");
+
+  trebleCheckbox.onchange = e => {
+    audioParams.trebleActive = !audioParams.trebleActive;
+    audio.toggleHighpass(audioParams.trebleActive);
+  };
+
+  bassCheckbox.onchange = e => {
+    audioParams.bassActive = !audioParams.bassActive;
+    audio.toggleHighpass(audioParams.bassActive);
+  };
+
 } // end setupUI
 
 function loop(){

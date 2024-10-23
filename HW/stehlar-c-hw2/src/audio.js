@@ -6,8 +6,7 @@ let audioCtx;
 // **These are "private" properties - these will NOT be visible outside of this module (i.e. file)**
 // 2 - WebAudio nodes that are part of our WebAudio audio routing graph
 
-let audioDomElement, sourceNode, analyserNode, gainNode;
-
+let audioDomElement, sourceNode, analyserNode, gainNode, biquadFilterNode, lowshelfBiquadFilterNode, distortionFilter;
 
 // 3 - here we are faking an enumeration
 
@@ -59,10 +58,73 @@ function setupWebaudio(filePath)
     gainNode = audioCtx.createGain();
     gainNode.gain.value = DEFAULTS.gain;
 
+    // setup biquad filter
+    biquadFilterNode = audioCtx.createBiquadFilter();
+    biquadFilterNode.type = "highshelf";
+
+    lowshelfBiquadFilterNode = audioCtx.createBiquadFilter();
+    lowshelfBiquadFilterNode.type = "lowshelf";
+
+    distortionFilter = audioCtx.createWaveShaper();
+
     // 8 - connect the nodes - we now have an audio graph
-    sourceNode.connect(analyserNode);
+    sourceNode.connect(biquadFilterNode);
+    biquadFilterNode.connect(lowshelfBiquadFilterNode);
+    lowshelfBiquadFilterNode.connect(distortionFilter);
+    distortionFilter.connect(analyserNode);
+
     analyserNode.connect(gainNode);
     gainNode.connect(audioCtx.destination);
+}
+
+function toggleHighpass(isOn)
+{
+    if(isOn)
+    {
+        biquadFilterNode.frequency.setValueAtTime(1000, audioCtx.currentTime);
+        biquadFilterNode.gain.setValueAtTime(25 , audioCtx.currentTime);
+    }
+    else
+    {
+        biquadFilterNode.gain.setValueAtTime(0 , audioCtx.currentTime);
+    }
+}
+
+function toggleLowpass(isOn)
+{
+    if(isOn)
+    {
+        lowshelfBiquadFilterNode.frequency.setValueAtTime(1000, audioCtx.currentTime);
+        lowshelfBiquadFilterNode.gain.setValueAtTime(15 , audioCtx.currentTime);
+    }
+    else
+    {
+        lowshelfBiquadFilterNode.gain.setValueAtTime(0 , audioCtx.currentTime);
+    }
+}
+
+function toggleDistortion(isOn, value)
+{
+    if(isOn)
+    {
+        distortionFilter.curve = makeDistortionCurve(value);
+        console.log("distorition on");
+    }
+    else
+    {
+        distortionFilter.curve = null;
+        console.log("distorition off");
+    }
+}
+
+// from: https://developer.mozilla.org/en-US/docs/Web/API/WaveShaperNode
+function makeDistortionCurve(amount = 20) {
+    let n_samples = 256, curve = new Float32Array(n_samples);
+    for (let i = 0; i < n_samples; ++i) {
+        let x = i * 2 / n_samples - 1;
+        curve[i] = (Math.PI + amount) * x / (Math.PI + amount * Math.abs(x));
+    }
+    return curve;
 }
 
 function loadSoundFile(filePath)
@@ -86,4 +148,5 @@ function setVolume(value)
     gainNode.gain.value = value;
 }
 
-export{audioCtx, setupWebaudio, playCurrentSound, pauseCurrentSound, loadSoundFile, setVolume, analyserNode};
+
+export{audioCtx, setupWebaudio, playCurrentSound, pauseCurrentSound, loadSoundFile, setVolume, toggleHighpass, toggleLowpass, toggleDistortion, analyserNode};
