@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>First Canvas</title>
+	<style>
+        canvas{
+            border:1px solid gray;
+        }
+	</style>
+	<script>
+		// #0 - in this class we will always use ECMAScript 5's "strict" mode
+		// See what 'use strict' does here:
+		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode
+		"use strict";
+		
+		// #1 call the `init` function after the pages loads
+		window.onload = init;
+
+        let ctx;
+        let width, height;
+        let barDirectionUpDown = false;
+
+        // handy helper functions!
+        function getRandomColor(){
+            function getByte(){
+                return 55 + Math.round(Math.random() * 200);
+            }
+            return "rgba(" + getByte() + "," + getByte() + "," + getByte() + ",1)";
+        }
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+	
+		function init(){
+			console.log("page loaded!");
+			// #2 Now that the page has loaded, start drawing!
+			
+			// A - `canvas` variable points at <canvas> tag
+			let canvas = document.querySelector("canvas");
+            width = canvas.width;
+            height = canvas.height;
+			
+			// B - the `ctx` variable points at a "2D drawing context"
+			ctx = canvas.getContext("2d");
+			
+			// C - all fill operations are now in red
+			ctx.fillStyle = "red"; 
+			
+			// D - fill a rectangle with the current fill color
+			ctx.fillRect(20,20,600,440); 
+
+            /* // pe 1
+            ctx.fillStyle = "yellow";
+            ctx.fillRect(120, 120, 400, 300);
+            ctx.strokeStyle = "magenta";
+            ctx.lineWidth = 10;
+            ctx.strokeRect(120, 120, 400, 300); */
+
+            // pe 2
+            
+            ctx.fillStyle = "yellow";
+            ctx.strokeStyle = "magenta";
+            ctx.lineWidth = 10;
+            ctx.beginPath();
+            ctx.rect(120, 120, 400, 300);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // lines
+            ctx.beginPath();
+            ctx.moveTo(20,20);
+            ctx.lineTo(620,460);
+            ctx.closePath();
+            ctx.lineWidth = 5;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(620,20);
+            ctx.lineTo(20,460);
+            ctx.closePath();
+            ctx.lineWidth = 5;
+            ctx.stroke();
+
+            // circle
+            ctx.fillStyle = "green";
+            ctx.strokeStyle = "purple";
+            ctx.beginPath();
+            ctx.arc(320, 240, 50, Math.PI * 2, false);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // semi circle
+            ctx.fillStyle = "gray";
+            ctx.strokeStyle = "yellow";
+            ctx.beginPath();
+            ctx.arc(320, 240, 20, 0, Math.PI, false);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // eyes
+            ctx.fillStyle = "teal";
+            ctx.strokeStyle = "brown";
+            ctx.beginPath();
+            ctx.arc(300, 220, 10, 0, Math.PI * 2, false);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(340, 220, 10, 0, Math.PI * 2, false);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // line
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 20;
+            ctx.beginPath();
+            ctx.moveTo(20, 50);
+            ctx.lineTo(620, 50);
+            ctx.closePath();
+            ctx.stroke();
+
+            update();
+		}
+
+        function update()
+        {
+            // 1 in 100 chance to clear the board
+            if(getRandomInt(0, 100) == 0)
+            {
+                ctx.fillStyle = getRandomColor();    
+                ctx.fillRect(0,0, width, height);
+                barDirectionUpDown = !barDirectionUpDown;
+            }
+            else
+            {
+                drawRandomBars(ctx);   
+                drawRandomPixels(ctx);
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        function drawRandomRect(ctx)
+        {
+            ctx.fillStyle = getRandomColor();
+            ctx.strokeStyle = getRandomColor();
+            ctx.lineWidth = getRandomInt(2, 12);
+            ctx.beginPath();
+            ctx.rect(getRandomInt(0, 640), getRandomInt(0, 480), getRandomInt(10, 90), getRandomInt(10, 90));
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        // draws clusters of pixels all over the canvas at once
+        function drawRandomPixels(ctx)
+        {
+            let randomAmount = getRandomInt(20, 50);
+            ctx.fillStyle = getRandomColor();
+
+            ctx.beginPath();
+            for(let i = 0; i < randomAmount; i++)
+            {
+                ctx.rect(getRandomInt(0, width), getRandomInt(0, height), 4, 4);
+            }
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // draws thin bars across the top and bottom of the cavnas
+        function drawRandomBars(ctx)
+        {
+            ctx.fillStyle = getRandomColor();
+
+            ctx.beginPath();
+
+            if(barDirectionUpDown)
+                ctx.rect(0, getRandomInt(0, height), width, 4);
+            else
+                ctx.rect(getRandomInt(0, width), 0, 4, height);
+
+            barDirectionUpDown = !barDirectionUpDown;
+
+            ctx.closePath();
+            ctx.fill();
+        }
+	</script>
+</head>
+<body>
+	<canvas width="640" height="480">
+		Get a real browser!
+	</canvas>
+</body>
+</html>

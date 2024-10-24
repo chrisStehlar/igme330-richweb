@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Audio Visualizer</title>
+  <link href="./styles/default-styles.css" type="text/css" rel="stylesheet" />
+  <script src="./src/loader.js" type="module"></script>
+</head>
+<body>
+<main>
+  <h1 id="av-title">epic audio visualizer</h1>
+  <canvas width="800" height="400"></canvas>
+  <div id="controls">
+    <section>
+      <button id="btn-play" data-playing="no"></button>
+      <button id="btn-fullscreen">Full Screen</button>
+		
+      <label>Track: 
+        <select id="track-select"></select>
+      </label>
+    </section>
+		
+    <section>
+      Volume: <input type="range" id="volume-slider" min=".01" max="2" value="1" step="0.01">
+      <span id="volume-label">???</span>
+    </section>
+
+    <section>
+        <span><input type="checkbox" id="gradient-cb" checked="true"> <label for="gradient-cb">Show Gradient</label></span>
+        <span><input type="checkbox" id="bars-cb" checked="true"><label for="bars-cb">Show Bars</label></span>
+        <span><input type="checkbox" id="circles-cb" checked="true"><label for="circles-cb">Show Circles</label></span>
+        <span><input type="checkbox" id="noise-cb"><label for="noise-cb">Show Noise</label></span>
+        <span><input type="checkbox" id="invert-cb"><label for="invert-cb">Show Invert</label></span>
+        <span><input type="checkbox" id="emboss-cb"><label for="emboss-cb">Show Emboss</label></span>
+        <span><input type="checkbox" id="sprites-cb" checked="true"><label for="sprites-cb">Show Sprites</label></span>
+      </section>
+
+      <section>
+        <span><input type="checkbox" id="treble-cb"> <label for="treble-cb">Treble</label></span>
+        <span><input type="checkbox" id="bass-cb"> <label for="bass-cb">Bass</label></span>
+        <span><input type="checkbox" id="distortion-cb"> <label for="distortion-cb">Distortion</label></span>
+
+        | Distortion Amount: <input type="range" id="distortion-volume-slider" min="0" max="2" value="1" step="0.01">
+        <span id="distortion-volume-label">???</span>
+
+      <select id="visualization-mode" name="visualization-mode">
+          <option value="frequency">Frequency</option>
+          <option value="waveform">Waveform</option>
+      </select>
+      </section>
+
+      <h2 id="instructions">filled by script</h2>
+  </div>
+</main>
+</body>
+</html>

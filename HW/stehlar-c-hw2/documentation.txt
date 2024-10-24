@@ -1,0 +1,7 @@
+II. The two audio effect nodes I added were treble and bass. The treble boosts the high end. The bass boosts the low end. The distortion works sometimes. When it works then it sounds a little different and increase the amplitude of the wave.
+
+III. The Sprite's class name is Sprite in sprite.js. It is a generic sprite class that moves sprites around the walls of the screen. It can be sped up or slowed down based on volume.
+
+IV. For my app's data, I made the audio files load dynamically based on names. It will look in the filesystem to load each name in the data. I also added modular instructions that are easy to change via the data.
+
+V. I improved the aesthetic of the app by theming it around animals. I had originally added a song called Sahara by Joe Satriani, so when I added sprites I wanted them to be safari like animals. The background and narrative around the sprites and music fit the rest of the theme. I also changed the bars to be black and white like a zebra print. The background is supposed to be warm like the saharan desert. I would give myself a 10% out of 15% for customization since it is much better than it used  to be, however, there is room for improvement and more to add around the theme. 

@@ -1,0 +1,61 @@
+html { 
+  background: url(../media/jungleBG.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+body {
+    background: #00000050;
+    font-family: tahoma, verdana, sans serif;
+    padding: 5rem;
+
+    color: white;
+  }
+  
+  canvas {
+    margin-left: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+    background: #fafafa;
+    border-style: solid;
+    border-color: rgb(114, 0, 0);
+    border-width: 10px;
+  }
+  
+  #controls{
+    margin-left: 1rem;
+  }
+  
+  #volume-label{
+    margin-left: 1rem;
+  }
+  
+  section{
+    margin-bottom: 1rem;
+  }
+  
+  #btn-play{
+    font-size: 1.2rem;
+    width: 6rem;
+  }
+
+  button, select{
+    color: black;
+    padding: .5rem;
+  }
+  
+  button[data-playing="yes"]:after{
+    content: "Pause";
+  }
+  
+  button[data-playing="no"]:after{
+    content: "Play";
+  }
+  
+  #btn-fullscreen{
+    font-size: 1.2rem;
+    width: 8rem;
+  }
