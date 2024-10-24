@@ -72,6 +72,10 @@ function draw(params={}){
         ctx.strokeStyle = `rgba(0, 0, 0, 0.5)`;
         // loop through the data and draw
         for(let i = 0; i < audioData.length; i++){
+            if(i % 2 == 0)
+                ctx.fillStyle = `rgba(255,255,255, 0.5)`;
+            else
+                ctx.fillStyle = `rgba(0,0,0, 0.5)`;
             ctx.fillRect(margin + i * (barWidth + barSpacing), topSpacing + 256 - audioData[i], barWidth, barHeight);
             ctx.strokeRect(margin + i * (barWidth + barSpacing), topSpacing + 256 - audioData[i], barWidth, barHeight);
         }
