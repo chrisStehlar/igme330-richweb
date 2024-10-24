@@ -1,6 +1,5 @@
 export class Sprite{
     
-
     constructor(x, y, imageSrc, velocity) {
         this.x = x;
         this.y = y;

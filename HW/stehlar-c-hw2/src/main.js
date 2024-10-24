@@ -31,22 +31,54 @@ const audioParams = {
 
 let hippo = new Sprite(200, 200, "media/hippo.png", 5);
 let giraffe = new Sprite(300, 100, "media/giraffe.png", -3);
-
-// 1 - here we are faking an enumeration
-const DEFAULTS = Object.freeze({
-	sound1  :  "media/Joe Satriani - Sahara.mp3"
-});
+let movementOn = false;
 
 function init(){
 	console.log("init called");
 	console.log(`Testing utils.getRandomColor() import: ${utils.getRandomColor()}`);
-  audio.setupWebaudio(DEFAULTS.sound1);
+  audio.setupWebaudio("media/Joe Satriani - Sahara.mp3");
+  initJSON();
 	let canvasElement = document.querySelector("canvas"); // hookup <canvas> element
 	setupUI(canvasElement);
 
   canvas.setupCanvas(canvasElement, audio.analyserNode);
 
   loop();
+}
+
+function initJSON()
+{
+  let json;
+  const url = "data/av-data.json";
+  const xhr = new XMLHttpRequest();
+
+  xhr.onload = (e) => {
+      let responseText = e.target.responseText;
+
+      try{
+          json = JSON.parse(responseText);
+
+          if(json != null)
+          {
+            document.querySelector("h1").innerHTML = json.title;
+
+            let trackSelect = document.querySelector("#track-select");
+            json.audioFiles.forEach(file => {
+              let option = document.createElement("option");
+              option.value = "media/" + file.name;
+              option.text = file.name.replace(".mp3", "");
+              trackSelect.appendChild(option);
+            });
+          }
+      }
+      catch{
+          console.log("Could not parse the JSON.");
+          return;
+      }
+  }
+
+  xhr.open("GET", url);
+  xhr.send();
 }
 
 function setupUI(canvasElement){
@@ -74,10 +106,12 @@ function setupUI(canvasElement){
         // if track is currently paused then play it
         audio.playCurrentSound();
         e.target.dataset.playing = "yes";
+        movementOn = true;
     }
     else{
         audio.pauseCurrentSound();
         e.target.dataset.playing = "no";
+        movementOn = false;
     }
   };
 
@@ -141,6 +175,8 @@ function setupUI(canvasElement){
 
   spritesCheckbox.onchange = e => {
     drawParams.showSprites = !drawParams.showSprites;
+    hippo.y = 200;
+    giraffe.y = 300;
   };
 
   // treble, bass, disortion
@@ -195,8 +231,11 @@ function loop(){
       canvas.drawSprite(hippo);
       canvas.drawSprite(giraffe);
       
-      hippo.update();
-      giraffe.update();
+      if(movementOn)
+      {
+        hippo.update();
+        giraffe.update();
+      }
     }
 
 }
