@@ -69,6 +69,8 @@ function initJSON()
               option.text = file.name.replace(".mp3", "");
               trackSelect.appendChild(option);
             });
+
+            document.querySelector("#instructions").innerHTML = json.instructions;
           }
       }
       catch{
