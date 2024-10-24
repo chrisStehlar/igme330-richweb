@@ -10,6 +10,7 @@
 import * as utils from './utils.js';
 import * as audio from './audio.js';
 import * as canvas from './canvas.js';
+import { Sprite } from './sprite.js';
 
 const drawParams = {
     showGradient : true,
@@ -18,7 +19,8 @@ const drawParams = {
     showNoise : false,
     showInvert : false,
     showEmboss : false,
-    visualMode : "frequency"
+    visualMode : "frequency",
+    showSprites : true
 };
 
 const audioParams = {
@@ -26,6 +28,9 @@ const audioParams = {
   bassActive : false,
   distortionActive : false
 };
+
+let hippo = new Sprite(200, 200, "media/hippo.png", 5);
+let giraffe = new Sprite(300, 100, "media/giraffe.png", -3);
 
 // 1 - here we are faking an enumeration
 const DEFAULTS = Object.freeze({
@@ -35,13 +40,13 @@ const DEFAULTS = Object.freeze({
 function init(){
 	console.log("init called");
 	console.log(`Testing utils.getRandomColor() import: ${utils.getRandomColor()}`);
-    audio.setupWebaudio(DEFAULTS.sound1);
+  audio.setupWebaudio(DEFAULTS.sound1);
 	let canvasElement = document.querySelector("canvas"); // hookup <canvas> element
 	setupUI(canvasElement);
 
-    canvas.setupCanvas(canvasElement, audio.analyserNode);
+  canvas.setupCanvas(canvasElement, audio.analyserNode);
 
-    loop();
+  loop();
 }
 
 function setupUI(canvasElement){
@@ -83,6 +88,10 @@ function setupUI(canvasElement){
   volumeSlider.oninput = e => {
     audio.setVolume(e.target.value);
     volumeLabel.innerHTML = Math.round(e.target.value/2 * 100);
+    let value = Math.round(e.target.value/2 * 100);
+
+    hippo.velocity = {x: (value / 18) * Math.sign(hippo.velocity.x) , y: (value / 16) * Math.sign(hippo.velocity.x)};
+    giraffe.velocity = {x: (value / 16) * Math.sign(hippo.velocity.x) , y: (value / 18) * Math.sign(hippo.velocity.x)};
   };
 
   volumeSlider.dispatchEvent(new Event("input"));
@@ -104,6 +113,7 @@ function setupUI(canvasElement){
   let noiseCheckbox = document.querySelector("#noise-cb");
   let invertCheckbox = document.querySelector("#invert-cb");
   let embossCheckbox = document.querySelector("#emboss-cb");
+  let spritesCheckbox = document.querySelector("#sprites-cb");
 
   gradientCheckbox.onchange = e => {
     drawParams.showGradient = !drawParams.showGradient;
@@ -127,6 +137,10 @@ function setupUI(canvasElement){
 
   embossCheckbox.onchange = e => {
     drawParams.showEmboss = !drawParams.showEmboss;
+  };
+
+  spritesCheckbox.onchange = e => {
+    drawParams.showSprites = !drawParams.showSprites;
   };
 
   // treble, bass, disortion
@@ -173,8 +187,18 @@ function setupUI(canvasElement){
 } // end setupUI
 
 function loop(){
-    requestAnimationFrame(loop);
+    setTimeout(loop, 1/60.0);
     canvas.draw(drawParams);
+
+    if(drawParams.showSprites)
+    {
+      canvas.drawSprite(hippo);
+      canvas.drawSprite(giraffe);
+      
+      hippo.update();
+      giraffe.update();
+    }
+
 }
 
 export {init};

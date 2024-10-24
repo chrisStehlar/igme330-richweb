@@ -162,4 +162,8 @@ function draw(params={}){
     ctx.putImageData(imageData, 0, 0);
 }
 
-export {setupCanvas,draw};
+function drawSprite(sprite) {
+    sprite.draw(ctx);
+}
+
+export {setupCanvas,draw, drawSprite};
