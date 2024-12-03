@@ -1,5 +1,5 @@
 // I. Variables & constants
-const accessToken = "";
+const accessToken = "pk.eyJ1IjoiY2hyaXNzdGVobGFyIiwiYSI6ImNtNDdoMjVycjA1ajkyaXB6YTVpNnk4Zm0ifQ.3CdN6voqerGgj6hhSaYocg";
 let map;
 
 // An example of how our GeoJSON is formatted
@@ -37,11 +37,47 @@ const initMap = (center) => {
 		zoom: 5.2
 	});
 	map.addControl(new mapboxgl.NavigationControl({showCompass:false}));
+
 };
+
+const addMarker = (feature, className, clickHandler) => {
+	// create a map marker using feature data
+	const element = document.createElement("div");
+	element.className = className;
+	element.id = feature.id;
+
+	// html for the pop up
+	const html = `
+		<div style="text-align: left;">
+			<div style="text-align: center;"> <b>${feature.properties.title}</b></div>
+			<div>${feature.properties.address}</div>
+			<div><b>Phone:</b> ${feature.properties.phone}</div>
+		</div>
+	`;
+
+	// make the marker, add a popup, and add to map
+	const marker = new mapboxgl.Marker(element)
+		.setLngLat(feature.geometry.coordinates)
+		.setPopup(new mapboxgl.Popup({offset: 10})
+		.setHTML(html))
+		.addTo(map);
+
+	// call this when marker is clicked
+	element.addEventListener("click", () => {
+		clickHandler(marker._element.id);
+	});
+}
 
 
 // III. "public" - will be exported
+const addMarkersToMap = (json, clickHandler) => {
+	geojson = json;
 
+	// go through the features array and add a marker for each one
+	for (const feature of geojson.features) {
+		addMarker(feature, "poi", clickHandler);
+	}
+};
 
 const flyTo = (center = [0,0]) => {
 	//https://docs.mapbox.com/mapbox-gl-js/api/#map#flyto
@@ -60,4 +96,4 @@ const setPitchAndBearing = (pitch=0,bearing=0) => {
 	map.setBearing(bearing);
 };
 
-export { initMap, flyTo, setZoomLevel, setPitchAndBearing };
+export { initMap, flyTo, setZoomLevel, setPitchAndBearing, addMarkersToMap };
