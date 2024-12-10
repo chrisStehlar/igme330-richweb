@@ -1,12 +1,13 @@
 import * as map from "./map.js";
 import * as ajax from "./ajax.js";
+import * as storage from "./storage.js";
 
 // I. Variables & constants
 // NB - it's easy to get [longitude,latitude] coordinates with this tool: http://geojson.io/
 const longlatNYS = [-75.71615970715911, 43.025810763917775];
 const longlatUSA = [-98.5696, 39.8282];
 let geojson;
-let favoriteIds = ["p20", "p79", "p180", "p43"];
+let favoriteIds;
 
 
 // II. Functions
@@ -71,6 +72,8 @@ const init = () => {
 		map.addMarkersToMap(geojson, showFeatureDetails);
 		setupUI();
 	});
+
+	favoriteIds = storage.readFromLocalStorage("favoriteIds") || [];
 };
 
 const showFeatureDetails = (id) => {
@@ -98,6 +101,7 @@ const showFeatureDetails = (id) => {
 	favoriteButton.onclick = () => {
 		if (!isFavorite(id)) {
 			favoriteIds.push(id);
+			storage.writeToLocalStorage("favoriteIds", favoriteIds);
 			refreshFavorites();
 
 			favoriteButton.disabled = true;
@@ -108,6 +112,7 @@ const showFeatureDetails = (id) => {
 	deleteFavoriteButton.onclick = () => {
 		if (isFavorite(id)) {
 			favoriteIds = favoriteIds.filter((value) => value !== id);
+			storage.writeToLocalStorage("favoriteIds", favoriteIds);
 			refreshFavorites();
 			favoriteButton.disabled = false;
 			deleteFavoriteButton.disabled = true;
