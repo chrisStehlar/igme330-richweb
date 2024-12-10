@@ -75,7 +75,7 @@ const init = () => {
 
 const showFeatureDetails = (id) => {
 	console.log(`showFeatureDetails(${id})`);
-
+	
 	const feature = getFeatureById(id);
 	document.querySelector("#details-1").innerHTML = `Info for ${feature.properties.title}`;
 
@@ -84,10 +84,53 @@ const showFeatureDetails = (id) => {
 			<div><b>Address:</b> ${feature.properties.address}</div>
 			<div><b>Phone:</b> ${feature.properties.phone}</div>
 			<div><b>Website:</b> ${feature.properties.url}</div>
-		</div>`;
+		</div>
+		<div>
+			<button class="button is-success mt-3">Favorite</button>
+			<button class="button is-warning mt-3">Delete</button>
+		</div>
+		`;
+
+	// setup favorite button functionality
+	const favoriteButton = document.querySelector("#details-2 .button.is-success");
+	const deleteFavoriteButton = document.querySelector("#details-2 .button.is-warning");
+
+	favoriteButton.onclick = () => {
+		if (!isFavorite(id)) {
+			favoriteIds.push(id);
+			refreshFavorites();
+
+			favoriteButton.disabled = true;
+			deleteFavoriteButton.disabled = false;
+		}
+	};
+
+	deleteFavoriteButton.onclick = () => {
+		if (isFavorite(id)) {
+			favoriteIds = favoriteIds.filter((value) => value !== id);
+			refreshFavorites();
+			favoriteButton.disabled = false;
+			deleteFavoriteButton.disabled = true;
+
+		}
+	};
+
+	if (isFavorite(id)) {
+		favoriteButton.disabled = true;
+		deleteFavoriteButton.disabled = false;
+	}
+	else
+	{
+		favoriteButton.disabled = false;
+		deleteFavoriteButton.disabled = true;
+	}
 
 	document.querySelector("#details-3").innerHTML = `${feature.properties.description}`;
 };
+
+const isFavorite = (id) => {
+	return favoriteIds.includes(id);
+}
 
 const getFeatureById = (id) => {
 	for (const feature of geojson.features) {
